@@ -1,0 +1,14 @@
+<div class="option"
+(click)="onChecked(option)">
+  <div class="option-checkbox">
+    <input type="checkbox" [checked]="option.isChecked">
+  </div>
+  <div class="option-img" *ngIf="option?.image">
+    <img [src]="option.image" alt="img">
+  </div>
+  <div class="option-text">
+    <span class="option-text-format">
+      {{option.name}}
+    </span>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+:host {
+  display: block;
+}
+
+.option {
+  display: flex;
+  padding: 10px 15px;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    transition: .3s ease;
+    background-color: #dadada;
+  }
+
+  &-checkbox {
+    padding: 3px 15px 3px 3px;
+  }
+}

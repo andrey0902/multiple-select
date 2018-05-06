@@ -1,0 +1,16 @@
+<div class="wrapper">
+  <app-field [title]="title"
+             (click)="toggleDropdown($event)"
+             [disabled]="disabled"
+             [isVisible]="isVisible"
+  ></app-field>
+  <app-list *ngIf="isVisible"
+            [maxHeight]="settings.maxHeight"
+            [isVisible]="isVisible"
+            [filteredOptions]="filteredOptions"
+            [showCheckAll]="settings.showCheckAll"
+            [checkAllText]="texts.checkAll"
+            [options]="options"
+            (isChecked)="onSelect($event)"
+  ></app-list>
+</div>

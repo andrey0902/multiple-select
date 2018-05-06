@@ -1,0 +1,40 @@
+<div class="dropdown-menu"
+     [style.max-height]="maxHeight"
+>
+  <div class="dropdown-item option check-control check-control-check"
+       *ngIf="showCheckAll"
+       (click)="checkAll()"
+  >
+    <div class="option-checkbox">
+      <input type="checkbox" [checked]="checkedAll">
+    </div>
+    <div class="option-text">
+    <span class="option-text-format">
+   {{ checkAllText }}
+    </span>
+    </div>
+  </div>
+  <app-item *ngFor="let option of options"
+            [option]="option"
+            (checked)="onChecked($event)"
+  ></app-item>
+
+
+
+<!--  <a role="menuitem"
+     href="javascript:;"
+     tabindex="-1" class="dropdown-item check-control check-control-check"
+     *ngIf="showCheckAll && !disabledSelection"
+     (click)="checkAll()">
+    <span style="width: 16px;">
+      <span [ngClass]="{'glyphicon glyphicon-ok': settings.checkedStyle !== 'fontawesome',
+      'fa fa-check': settings.checkedStyle === 'fontawesome'}"></span></span>
+    {{ checkAllText }}
+  </a>-->
+
+  <!--<a role="menuitem" href="javascript:;" tabindex="-1" class="dropdown-item check-control check-control-uncheck" *ngIf="settings.showUncheckAll && !disabledSelection"-->
+     <!--(click)="uncheckAll()">-->
+    <!--<span style="width: 16px;"><span [ngClass]="{'glyphicon glyphicon-remove': settings.checkedStyle !== 'fontawesome','fa fa-times': settings.checkedStyle === 'fontawesome'}"></span></span>-->
+    <!--{{ texts.uncheckAll }}-->
+  <!--</a>-->
+</div>

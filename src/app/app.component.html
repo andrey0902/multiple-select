@@ -1,0 +1,48 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<h1>
+    Welcome to {{ title }}!
+</h1>
+<nav>
+  <a routerLink="/heroes" routerLinkActive="selected">Heroes</a>
+  <a routerLink="/dashboard" routerLinkActive="selected">Dashboard</a>
+</nav>
+<!--<router-outlet></router-outlet>
+<app-messages></app-messages>
+
+<app-chaild *ngFor="let item of values" [details]="item.details" [masterName]="item.masterName"
+            [name]="item.name"
+></app-chaild>
+<app-version-chaild [major]="major"
+                    [minor]="minor"
+></app-version-chaild>
+<button (click)="setMajor()">Major</button>
+<button (click)="setMinor()">Minor</button>
+
+<app-parent-component class="active"></app-parent-component>
+
+<app-simple-host [appHighlite]="'yellow'"></app-simple-host>-->
+<!--
+<div>
+  value do changed
+  {{control.value}}
+</div>
+<app-textare-extend [formControl]="control"></app-textare-extend>
+<button (click)="control.disable()">disable</button>
+<button (click)="control.enable()">enabled</button>
+<div>
+  value do changed
+  {{control2.value}}
+</div>
+<button (click)="control2.disable()">disable2</button>
+<button (click)="control2.enable()">enabled2</button>
+<app-costom-text-area [formControl]="control2"></app-costom-text-area>
+-->
+<app-select style="width: 300px;" [options]="selectOptions"
+            [settings]="selectSettings"
+></app-select>
+
+<select name="test" multiple [formControl]="control" id="">
+  <ng-container *ngFor="let option of selectOptions">
+    <option [value]="option.value">{{option.name}}</option>
+  </ng-container>
+</select>

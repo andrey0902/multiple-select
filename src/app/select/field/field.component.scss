@@ -1,0 +1,38 @@
+:host {
+  display: block;
+}
+
+.field {
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  padding: 7px 20px 7px 10px;
+  cursor: pointer;
+  position: relative;
+
+  &-title {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &-marc {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    svg {
+      fill: red;
+    }
+  }
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.hide {
+  opacity: 0;
+}

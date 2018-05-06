@@ -1,0 +1,30 @@
+:host {
+  display: block;
+  margin-top: 7px;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  right: 0;
+  z-index: 10;
+  background-color: #fff;
+
+}
+
+.dropdown-menu {
+  display: flex;
+  flex-direction: column;
+  padding: 7px 0;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  overflow-y: auto;
+}
+.option {
+  display: flex;
+  padding: 10px 15px;
+  align-items: center;
+  cursor: pointer;
+
+  &-checkbox {
+    padding: 3px 15px 3px 3px;
+  }
+}
