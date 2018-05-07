@@ -24,7 +24,38 @@
   align-items: center;
   cursor: pointer;
 
+  &:hover {
+    transition: .3s ease;
+    background-color: #dadada;
+  }
+
   &-checkbox {
     padding: 3px 15px 3px 3px;
   }
+}
+
+.checkbox-view {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  box-sizing: border-box;
+  position: relative;
+  background-color: #e6690a;
+  border: none;
+}
+
+.checkbox-view.checked {
+
+
+}
+
+.arrow-done {
+  position: absolute;
+  fill: orange;
+  width: 8px;
+  height: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 2px;
 }

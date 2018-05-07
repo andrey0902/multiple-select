@@ -1,3 +1,4 @@
+
 :host {
   display: block;
 }
@@ -16,4 +17,29 @@
   &-checkbox {
     padding: 3px 15px 3px 3px;
   }
+}
+
+.checkbox-view {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 1px solid gray;
+  border-radius: 3px;
+  box-sizing: border-box;
+  position: relative;
+
+}
+.checkbox-view.checked {
+  background-color: #e6690a;
+  border: none;
+}
+
+.arrow-done {
+  position: absolute;
+  fill: orange;
+  width: 10px;
+  height: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 1px;
 }

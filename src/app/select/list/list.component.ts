@@ -40,6 +40,8 @@ export class ListComponent implements OnInit {
     });
     this.isChecked.emit({checked: true});
   }
+
+
 /*  focusItem(dir: number, e?: Event) {
     if (!this.isVisible) {
       return;
@@ -69,10 +71,17 @@ export class ListComponent implements OnInit {
       this.service.removeModel(event);
     }
     this.isChecked.emit({checked: true});
+    this.isCheckedAll();
   }
 
   private toggleChecked(): void {
     this.checkedAll = !this.checkedAll;
     this.service.checkedAll = !this.service.checkedAll;
+  }
+
+  private isCheckedAll() {
+    console.log(this.options.length , this.service.getModel().length);
+    this.checkedAll = this.options.length === this.service.getModel().length;
+    this.service.checkedAll = this.checkedAll;
   }
 }

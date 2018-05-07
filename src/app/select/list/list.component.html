@@ -6,7 +6,21 @@
        (click)="checkAll()"
   >
     <div class="option-checkbox">
-      <input type="checkbox" [checked]="checkedAll">
+      <label for="check-all" class="checkbox-view" [class.checked]="checkedAll">
+        <svg *ngIf="!checkedAll" xmlns="http://www.w3.org/2000/svg" class="arrow-done" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 349.03 349.03" style="enable-background:new 0 0 349.03 349.03;" xml:space="preserve">
+          <g>
+            <path d="M349.03,141.226v66.579c0,5.012-4.061,9.079-9.079,9.079H9.079c-5.016,0-9.079-4.067-9.079-9.079v-66.579   c0-5.012,4.063-9.079,9.079-9.079h330.872C344.97,132.146,349.03,136.213,349.03,141.226z" fill="#FFFFFF"/>
+          </g>
+        </svg>
+        <svg *ngIf="checkedAll" xmlns="http://www.w3.org/2000/svg" class="arrow-done" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 58 58" style="enable-background:new 0 0 58 58;" xml:space="preserve">
+        <g>
+          <g>
+            <path d="M55,24H34V3c0-2.762-2.238-3-5-3s-5,0.238-5,3v21H3c-2.762,0-3,2.238-3,5s0.238,5,3,5h21v21    c0,2.762,2.238,3,5,3s5-0.238,5-3V34h21c2.762,0,3-2.238,3-5S57.762,24,55,24z" fill="#FFFFFF"/>
+          </g>
+        </g>
+        </svg>
+        <input type="checkbox" id="check-all" hidden [checked]="checkedAll">
+      </label>
     </div>
     <div class="option-text">
     <span class="option-text-format">

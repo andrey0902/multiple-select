@@ -67,7 +67,6 @@ export class AppComponent implements OnInit {
     closeOnClickOutside: true,
     dynamicTitleMaxItems: 5,
   };
-
   ngOnInit(): void {
     this.control = new FormControl('test value', [Validators.required]);
     this.control.valueChanges
