@@ -20,7 +20,9 @@ export class ListComponent implements OnInit {
   @Output() isChecked = new EventEmitter();
   public checkedAll = false;
   constructor( private service: SelectService,
-               private dr: ChangeDetectorRef) { }
+               private dr: ChangeDetectorRef) {
+    this.checkedAll = this.service.checkedAll;
+  }
 
   ngOnInit() {
   }
@@ -28,7 +30,7 @@ export class ListComponent implements OnInit {
     this.toggleChecked();
     console.log(this.items);
     this.items.forEach(item => {
-      console.log('item', item);
+
       item.option.isChecked = this.checkedAll;
       if (this.checkedAll) {
         this.service.setAllModel(this.options);
@@ -71,5 +73,6 @@ export class ListComponent implements OnInit {
 
   private toggleChecked(): void {
     this.checkedAll = !this.checkedAll;
+    this.service.checkedAll = !this.service.checkedAll;
   }
 }

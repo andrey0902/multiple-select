@@ -3,6 +3,7 @@ import { IMultiSelectOption } from '../type';
 
 @Injectable()
 export class SelectService {
+  public checkedAll = false;
   private _model: IMultiSelectOption[] = [];
 
   constructor() {
@@ -52,7 +53,6 @@ export class SelectService {
     let str = '';
     const length = this._model.length - 1;
     for (let i = 0; i <= length; i++) {
-      console.log('this._model', this._model, i);
       if (i === countTitleShow) {
         break;
       }
@@ -63,5 +63,16 @@ export class SelectService {
       }
     }
     return str;
+  }
+
+  public updatePath(list: IMultiSelectOption[]) {
+    this._model.forEach(item => {
+      for (let i = 0; i < list.length; i++) {
+        if (list[i].id === item.id) {
+          list[i].isChecked = item.isChecked;
+          break;
+        }
+      }
+    });
   }
 }

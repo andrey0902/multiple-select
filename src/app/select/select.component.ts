@@ -1,13 +1,20 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, forwardRef, HostListener, Input, OnInit } from '@angular/core';
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from './shared/type';
 import { SelectService } from './shared/service/select.service';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-select',
   templateUrl: './select.component.html',
-  styleUrls: ['./select.component.scss']
+  styleUrls: ['./select.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => SelectComponent),
+      multi: true,
+    }]
 })
-export class SelectComponent implements OnInit {
+export class SelectComponent implements OnInit, ControlValueAccessor {
   @Input() settings: IMultiSelectSettings;
   @Input() texts: IMultiSelectTexts;
   @Input() public options: IMultiSelectOption[];
@@ -69,7 +76,7 @@ export class SelectComponent implements OnInit {
   private _isVisible = false;
   private _workerDocClicked = false;
   _focusBack = false;
-
+  onTouched;
   constructor(private el: ElementRef,
               private service: SelectService) {
     this.settings = this.defaultSettings;
@@ -93,11 +100,31 @@ export class SelectComponent implements OnInit {
      }
   }
 
+  writeValue(obj: IMultiSelectOption[]): void {
+    if (obj !== null && obj !== undefined && obj !== '') {
+      this.service.setAllModel(obj);
+      this.service.updatePath(this.options);
+    }
+  }
+
+  registerOnChange(fn: any): void {
+    this.propagateChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState( isDisabled: boolean ): void {
+    this.disabled = isDisabled;
+  }
+
+  public propagateChange = (_: any) => { };
+
   public toggleDropdown(e: Event) {
     if (this.disabled) {
       return;
     }
-    console.log('toggleDropdown');
     this.service.maybeStopPropagation(e);
 
     if (this.isVisible) {
@@ -110,15 +137,13 @@ export class SelectComponent implements OnInit {
   }
 
   public onSelect(event) {
-    console.log('event', event);
-    console.log('getModel', this.service.getModel());
     this.updateTitle();
+     this.propagateChange(this.service.getModel());
   }
 
   private updateTitle() {
-    console.log('this.settings', this.settings);
+
     const countTitleShow = this.settings.dynamicTitleMaxItems;
-    console.log('this.service.getModel().length >= countTitleShow', this.service.getModel().length, countTitleShow);
     if (this.service.getModel().length <= countTitleShow) {
       const string = this.service.updateTitle(countTitleShow);
       if (string === '') {
@@ -126,7 +151,6 @@ export class SelectComponent implements OnInit {
       } else {
         this.title = string;
       }
-      console.log('this.title', this.title);
     }
   }
 }

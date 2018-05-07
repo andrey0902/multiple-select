@@ -75,10 +75,14 @@ export class AppComponent implements OnInit {
         console.log('value', value);
         console.log('this.control', this.control.value);
       });
-    this.control2 = new FormControl('test value', [Validators.required]);
+    this.control2 = new FormControl([
+      { 'id': 0, 'name': 'theme 0', 'value': 0, 'isChecked': true },
+      { 'id': 1, 'name': 'theme 1', 'value': 1, 'isChecked': true },
+      { 'id': 2, 'name': 'theme 2', 'value': 2, 'isChecked': true }
+      ], [Validators.required]);
     this.control2.valueChanges
       .subscribe(value => {
-        console.log('value');
+        console.log('value', this.control2);
       });
   }
 }
