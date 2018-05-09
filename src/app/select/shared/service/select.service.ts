@@ -34,7 +34,25 @@ export class SelectService {
   }
 
   public setAllModel(options: IMultiSelectOption[]) {
-    this._model = options;
+    this._model = options.map(option => Object.assign(option));
+  }
+
+  public notMultipleSet(options, option) {
+    if (this._model.length === 1) {
+      this.setUnchecked(options, option);
+      this.removeAllModel();
+      this.setModel(option);
+    } else {
+      this.setModel(option);
+    }
+  }
+
+  public setUnchecked(list: IMultiSelectOption[], option: IMultiSelectOption) {
+    list.forEach(item => {
+      if (item.id !== option.id) {
+        item.isChecked = false;
+      }
+    });
   }
 
   public maybeStopPropagation(e?: { stopPropagation?: Function }) {

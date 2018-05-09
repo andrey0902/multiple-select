@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChildren } from '@angular/core';
 import { SelectService } from '../shared/service/select.service';
-import { IMultiSelectOption } from '../shared/type';
+import {IMultiSelectOption, IMultiSelectSettings} from '../shared/type';
 import { ItemComponent } from '../item/item.component';
 
 @Component({
@@ -13,6 +13,7 @@ export class ListComponent implements OnInit {
   @Input() maxHeight: string;
   @Input() isVisible: boolean;
   @Input() showCheckAll: boolean;
+  @Input() settings: IMultiSelectSettings;
   @Input() options: IMultiSelectOption[];
   // tslint:disable-next-line
   @Input('checkAllText') checkAllText: string;
@@ -28,7 +29,6 @@ export class ListComponent implements OnInit {
   }
   public checkAll() {
     this.toggleChecked();
-    console.log(this.items);
     this.items.forEach(item => {
 
       item.option.isChecked = this.checkedAll;
@@ -41,30 +41,20 @@ export class ListComponent implements OnInit {
     this.isChecked.emit({checked: true});
   }
 
-
-/*  focusItem(dir: number, e?: Event) {
-    if (!this.isVisible) {
-      return;
-    }
-
-    this.service.maybePreventDefault(e);
-
-    const idx = this.filteredOptions.indexOf(this.focusedItem);
-
-    if (idx === -1) {
-      this.focusedItem = this.filteredOptions[0];
-      return;
-    }
-
-    const nextIdx = idx + dir;
-    const newIdx =
-      nextIdx < 0
-        ? this.filteredOptions.length - 1
-        : nextIdx % this.filteredOptions.length;
-
-    this.focusedItem = this.filteredOptions[newIdx];
-  }*/
   public onChecked(event: IMultiSelectOption) {
+    this.checkedIsMultiple(event);
+
+  }
+
+  public checkedIsMultiple(event) {
+    if (this.settings.isMultiple) {
+      this.isMultiple(event);
+    } else {
+      this.notMultiple(event);
+    }
+  }
+
+  public isMultiple(event: IMultiSelectOption) {
     if (event.isChecked) {
       this.service.setModel(event);
     } else {
@@ -74,13 +64,18 @@ export class ListComponent implements OnInit {
     this.isCheckedAll();
   }
 
+  public notMultiple(event) {
+    this.service.notMultipleSet(this.options, event);
+    this.isChecked.emit({checked: true});
+  }
+
   private toggleChecked(): void {
     this.checkedAll = !this.checkedAll;
     this.service.checkedAll = !this.service.checkedAll;
   }
 
   private isCheckedAll() {
-    console.log(this.options.length , this.service.getModel().length);
+    // console.log(this.options.length , this.service.getModel().length);
     this.checkedAll = this.options.length === this.service.getModel().length;
     this.service.checkedAll = this.checkedAll;
   }

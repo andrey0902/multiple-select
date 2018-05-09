@@ -4,7 +4,6 @@ import { SelectComponent } from './select.component';
 import { FieldComponent } from './field/field.component';
 import { ListComponent } from './list/list.component';
 import { ItemComponent } from './item/item.component';
-import { SelectService } from './shared/service/select.service';
 import { SearchComponent } from './search/search.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -26,9 +25,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ListComponent,
     ItemComponent
   ],
-  providers: [
-    SelectService
-  ]
+  providers: []
 })
 export class SelectModule {
 }

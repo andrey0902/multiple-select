@@ -47,6 +47,17 @@
 ></app-select>
 <button (click)="control2.disable()">disable2</button>
 <button (click)="control2.enable()">enabled2</button>
+
+<div>
+  value do changed
+  {{control.value | json}}
+</div>
+<app-select style="width: 300px;" [options]="selectOptions2"
+            [settings]="selectSettings2"
+            [formControl]="control"
+></app-select>
+<button (click)="control.disable()">disable2</button>
+<button (click)="control.enable()">enabled2</button>
 <!--
 <select name="test" multiple [formControl]="control" id="">
   <ng-container *ngFor="let option of selectOptions">

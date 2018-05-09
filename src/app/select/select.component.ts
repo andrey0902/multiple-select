@@ -8,6 +8,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
   providers: [
+    SelectService,
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => SelectComponent),
@@ -30,6 +31,8 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   }
   defaultSettings: IMultiSelectSettings = {
     closeOnClickOutside: true,
+    isMultiple: true,
+    isShoveChecked: true,
     pullRight: false,
     enableSearch: false,
     searchRenderLimit: 0,
@@ -80,12 +83,13 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   constructor(private el: ElementRef,
               private service: SelectService) {
     this.settings = this.defaultSettings;
-    console.log(this.settings);
+
     this.texts = this.defaultTexts;
   }
 
   ngOnInit() {
     this.title = this.texts.defaultTitle || '';
+    // console.log('settings', this.settings);
   }
 
   @HostListener('document: click', ['$event.target'])
@@ -101,9 +105,10 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   }
 
   writeValue(obj: IMultiSelectOption[]): void {
-    if (obj !== null && obj !== undefined && obj !== '') {
+    if (obj !== null && obj !== undefined && obj) {
       this.service.setAllModel(obj);
       this.service.updatePath(this.options);
+      this.updateTitle();
     }
   }
 

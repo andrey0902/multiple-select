@@ -15,6 +15,8 @@ export interface IMultiSelectSettings {
   pullRight?: boolean;
   enableSearch?: boolean;
   closeOnClickOutside?: boolean;
+  isMultiple?: boolean;
+  isShoveChecked?: boolean;
   /**
    * 0 - By default
    * If `enableSearch=true` and total amount of items more then `searchRenderLimit` (0 - No limit)

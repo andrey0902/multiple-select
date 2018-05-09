@@ -62,13 +62,43 @@ export class AppComponent implements OnInit {
     }
   ];
 
+  public selectOptions2 = [
+    {
+      id: 0, name: 'theme 0', value: 0, isChecked: false
+    },
+    {
+      id: 1, name: 'theme 1', value: 1, isChecked: false
+    },
+    {
+      id: 2, name: 'theme 2', value: 2, isChecked: false
+    },
+    {
+      id: 3, name: 'theme 3', value: 3, isChecked: false
+    },
+    {
+      id: 4, name: 'theme 4', value: 4, isChecked: false
+    }
+  ];
+
   public selectSettings = {
     showCheckAll: true,
     closeOnClickOutside: true,
     dynamicTitleMaxItems: 5,
+    isMultiple: true,
+    isShoveChecked: true,
   };
+  public selectSettings2 = {
+    showCheckAll: true,
+    closeOnClickOutside: true,
+    dynamicTitleMaxItems: 5,
+    isMultiple: false,
+    isShoveChecked: true,
+  };
+
   ngOnInit(): void {
-    this.control = new FormControl('test value', [Validators.required]);
+    this.control = new FormControl([
+      { 'id': 2, 'name': 'theme 2', 'value': 2, 'isChecked': true }
+    ], [Validators.required]);
     this.control.valueChanges
       .subscribe(value => {
         console.log('value', value);

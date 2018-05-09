@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IMultiSelectOption } from '../shared/type';
+import {IMultiSelectOption, IMultiSelectSettings} from '../shared/type';
 
 @Component({
   selector: 'app-item',
@@ -8,10 +8,12 @@ import { IMultiSelectOption } from '../shared/type';
 })
 export class ItemComponent implements OnInit {
   @Input() option: IMultiSelectOption;
+  @Input() settings: IMultiSelectSettings;
   @Output() public checked = new EventEmitter();
   constructor() { }
 
   ngOnInit() {
+    // console.log('item option0', this.option);
   }
 
   public onChecked(option): void {
