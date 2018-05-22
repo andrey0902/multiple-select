@@ -2,6 +2,9 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, View
 import { SelectService } from '../shared/service/select.service';
 import {IMultiSelectOption, IMultiSelectSettings} from '../shared/type';
 import { ItemComponent } from '../item/item.component';
+import {OptionModel} from '../shared/service/option.model';
+
+
 
 @Component({
   selector: 'app-list',
@@ -9,12 +12,12 @@ import { ItemComponent } from '../item/item.component';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  @ViewChildren(ItemComponent) public items: ItemComponent[];
+  @ViewChildren(ItemComponent) public items;
   @Input() maxHeight: string;
   @Input() isVisible: boolean;
   @Input() showCheckAll: boolean;
   @Input() settings: IMultiSelectSettings;
-  @Input() options: IMultiSelectOption[];
+  @Input() options: OptionModel[];
   // tslint:disable-next-line
   @Input('checkAllText') checkAllText: string;
   @Input() filteredOptions: any;
@@ -30,18 +33,17 @@ export class ListComponent implements OnInit {
   public checkAll() {
     this.toggleChecked();
     this.items.forEach(item => {
-
       item.option.isChecked = this.checkedAll;
-      if (this.checkedAll) {
-        this.service.setAllModel(this.options);
-      } else {
-        this.service.removeAllModel();
-      }
     });
+    if (this.checkedAll) {
+      this.service.setAllModel(this.options);
+    } else {
+      this.service.removeAllModel();
+    }
     this.isChecked.emit({checked: true});
   }
 
-  public onChecked(event: IMultiSelectOption) {
+  public onChecked(event: OptionModel) {
     this.checkedIsMultiple(event);
 
   }
@@ -54,7 +56,8 @@ export class ListComponent implements OnInit {
     }
   }
 
-  public isMultiple(event: IMultiSelectOption) {
+  public isMultiple(event: OptionModel) {
+    console.log('event', event);
     if (event.isChecked) {
       this.service.setModel(event);
     } else {

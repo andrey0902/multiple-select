@@ -64,3 +64,14 @@
     <option [value]="option.value">{{option.name}}</option>
   </ng-container>
 </select>-->
+<div style="border: 1px solid black">
+  <button (click)="onClick()">click stop</button>
+</div>
+<div style="border: 1px solid black">
+  <button (click)="onClick2()">click first</button>
+</div>
+
+<a routerLink="/dashboard" [queryParams]="{test: 5555}">Link Test</a>
+<div>
+  <input type="text" #input (change)="send(input.value)">
+</div>

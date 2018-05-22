@@ -2,6 +2,8 @@ import { Component, ElementRef, EventEmitter, forwardRef, HostListener, Input, O
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from './shared/type';
 import { SelectService } from './shared/service/select.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {OptionModel} from './shared/service/option.model';
+
 
 @Component({
   selector: 'app-select',
@@ -18,7 +20,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class SelectComponent implements OnInit, ControlValueAccessor {
   @Input() settings: IMultiSelectSettings;
   @Input() texts: IMultiSelectTexts;
-  @Input() public options: IMultiSelectOption[];
+  @Input() public options;
  public get isVisible() {
     return this._isVisible;
   }
@@ -75,6 +77,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   public disabled = false;
   public dropdownOpened = new EventEmitter();
   public dropdownClosed = new EventEmitter();
+  public type;
   focusedItem: IMultiSelectOption | undefined;
   private _isVisible = false;
   private _workerDocClicked = false;
@@ -84,12 +87,25 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
               private service: SelectService) {
     this.settings = this.defaultSettings;
 
+
     this.texts = this.defaultTexts;
   }
 
   ngOnInit() {
     this.title = this.texts.defaultTitle || '';
-    // console.log('settings', this.settings);
+    console.log('this.options', this.options);
+    this.service.settings = this.settings;
+    if (typeof this.options[0] === 'string') {
+      this.type = 'string';
+      this.service.type = 'string';
+      this.options = this.options.map(item => {
+        return new OptionModel ({
+          id: item,
+          name: item,
+          value: item
+        });
+      });
+    }
   }
 
   @HostListener('document: click', ['$event.target'])
@@ -149,6 +165,14 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   private updateTitle() {
 
     const countTitleShow = this.settings.dynamicTitleMaxItems;
+    if (!this.settings.isMultiple && this.type === 'string') {
+      const string = this.service.updateTitle(countTitleShow);
+      if (string === '') {
+        this.title = this.texts.defaultTitle;
+      } else {
+        this.title = string;
+      }
+    }
     if (this.service.getModel().length <= countTitleShow) {
       const string = this.service.updateTitle(countTitleShow);
       if (string === '') {
