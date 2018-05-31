@@ -28,6 +28,7 @@
     </span>
     </div>
   </div>
+  <app-search *ngIf="settings.enableSearch" [settings]="settings" [texts]="texts" (search)="getSearch($event)"></app-search>
   <app-item *ngFor="let option of options"
             [option]="option"
             (checked)="onChecked($event)"

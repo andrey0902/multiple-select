@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import {catchError, distinctUntilChanged, take, takeUntil} from 'rxjs/operators';
 import {interval} from 'rxjs/internal/observable/interval';
@@ -23,7 +23,22 @@ import 'rxjs-compat/add/operator/skipWhile';
 
 import {debounceTime} from 'rxjs/operators';
 import 'rxjs-compat/add/operator/debounceTime';
-
+import 'rxjs-compat/add/observable/interval';
+import 'rxjs-compat/add/operator/buffer';
+import 'rxjs-compat/add/operator/map';
+import 'rxjs-compat/add/observable/timer';
+import 'rxjs-compat/add/operator/bufferCount';
+import 'rxjs-compat/add/operator/defaultIfEmpty';
+import 'rxjs-compat/add/operator/delay';
+import 'rxjs-compat/add/operator/let';
+import 'rxjs-compat/add/operator/merge';
+import 'rxjs-compat/add/operator/mergeAll';
+import 'rxjs-compat/add/operator/concat';
+import {element} from 'protractor';
+import 'rxjs-compat/add/operator/mergeMap';
+import 'rxjs-compat/add/operator/concatAll';
+import "rxjs/add/observable/zip";
+import "rxjs/add/observable/combineLatest";
 
 @Component({
   selector: 'app-root',
@@ -36,8 +51,17 @@ export class AppComponent implements OnInit {
   public control2: FormControl;
   public untill = new Subject();
   public sendValue = new Subject();
+  public subForBufer = new Subject();
   public counter = 0;
   public simpleEvent = new Subject();
+
+  public listFild = [];
+
+
+  public fieldsName = ['.num', '.expiration', '.cvc'];
+  public canShov = false;
+
+
   title = 'tour of heroes';
   minor = 25;
   major = 1;
@@ -65,6 +89,13 @@ export class AppComponent implements OnInit {
   ];
 
   constructor(private route: ActivatedRoute) {
+  enum Job  {
+      Front = 'Front',
+      Beck = 'Beck',
+      Mened = 'Mened'
+    };
+
+    console.log('job', Job.Front);
 
   }
 
@@ -105,6 +136,7 @@ export class AppComponent implements OnInit {
     dynamicTitleMaxItems: 5,
     isMultiple: true,
     isShoveChecked: true,
+    enableSearch:  true,
   };
   public selectSettings2 = {
     showCheckAll: true,
@@ -112,12 +144,13 @@ export class AppComponent implements OnInit {
     dynamicTitleMaxItems: 5,
     isMultiple: false,
     isShoveChecked: true,
+    enableSearch:  true,
   };
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       console.log(params);
-    })
+    });
 
     this.control = new FormControl(
       // ['test 3', 'test']
@@ -196,6 +229,77 @@ export class AppComponent implements OnInit {
     Observable.from([1,1, 2,2,3,4,4,5])
       .pipe(distinctUntilChanged())
       .subscribe(val => console.log(',distinctUntilChanged', val));
+
+  const st = 'Hello';
+  const st1 = 'World';
+
+  Observable.of(st).merge(this.subForBufer)
+    .map(x => Observable.of(x))
+    .mergeAll()
+    .subscribe(this.handler('merge'));
+
+    const s1$ = Observable.of('stream 1');
+    const s2$ = Observable.of('stream 2');
+
+    s1$.concat(s2$)
+      .subscribe(this.handler('concat'));
+
+    Observable.of('Hello')
+      .map(val => Observable.of(val + 'my ConcatAll'))
+      .concatAll()
+      .subscribe(value => {
+        console.log(value);
+      });
+
+
+    const sourceOne = Observable.of('Hello').delay(5000);
+    const sourceTwo = Observable.of('World!');
+    const sourceThree = Observable.of('Goodbye');
+    const sourceFour = Observable.of('World!');
+
+    Observable.zip(
+      sourceOne, sourceTwo, sourceThree, sourceFour
+    )
+      .subscribe((value) => {
+        console.log(' zip: ', value);
+      });
+
+
+    Observable.of('Hello')
+      .mergeMap(value => Observable.of(value + 'My world'))
+      .subscribe(this.handler('mergeMap'));
+
+    const user$ = Observable.of('user1').delay(5000);
+    const country$ = Observable.of('country').delay(3000);
+
+    Observable.combineLatest(user$, country$)
+      .mergeMap(([user, country]) => {
+        if (user === 'user') {
+          return Observable.combineLatest(Observable.of(user), Observable.of(country), Observable.of('SENTER SITY'));
+        } else {
+          return Observable.combineLatest(Observable.of(user), Observable.of(country));
+        }
+      })
+      .subscribe(value => {
+        console.log('combineLatest', value);
+      });
+
+  }
+  @HostListener('document:click') public handlerClick() {
+    this.subForBufer.next('true123');
+  }
+  public handler(val) {
+    return {
+    next: (data) => {
+      console.log(val, ':', data);
+    },
+    error: (error) => {
+      console.log(val, ':', error);
+    },
+      complete: () => {
+      console.log('Completed');
+      }
+    };
   }
 
   public onClick() {
@@ -210,4 +314,37 @@ export class AppComponent implements OnInit {
   public send(value) {
     this.sendValue.next(value);
   }
+
+  public checkValidator(event) {
+    // console.log(event);
+    this.hangdlerSubmit();
+  }
+
+  public hangdlerSubmit() {
+    const result = this.listFild.every((element) => {
+      console.log(element);
+       return !element.classList.contains('invalid');
+    });
+
+    console.log('result', result);
+  }
+
+  public showForm(canShov) {
+    this.canShov = true;
+    this.init();
+  }
+
+  public init() {
+    setTimeout(() => {
+      this.fieldsName.forEach((name) => {
+        this.listFild.push(this.getElement(name));
+        console.log(this.listFild);
+      });
+    }, 200);
+  }
+
+  private getElement(selector) {
+    return document.querySelector(selector);
+  }
+
 }

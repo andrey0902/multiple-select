@@ -75,3 +75,17 @@
 <div>
   <input type="text" #input (change)="send(input.value)">
 </div>
+
+<button (click)="showForm(canShov)">show form</button>
+
+<div *ngIf="canShov" style="margin-top: 30px; border: 1px solid coral" (keyup)='checkValidator($event)'>
+  <p class="num">
+    number: <input type="text">
+  </p>
+    <p class="expiration ">
+      expiration: <input type="text">
+    </p>
+  <p class="cvc">
+    cvc: <input type="text">
+  </p>
+</div>

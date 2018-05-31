@@ -14,6 +14,7 @@ import {OptionModel} from '../shared/service/option.model';
 export class ListComponent implements OnInit {
   @ViewChildren(ItemComponent) public items;
   @Input() maxHeight: string;
+  @Input() texts: string;
   @Input() isVisible: boolean;
   @Input() showCheckAll: boolean;
   @Input() settings: IMultiSelectSettings;
@@ -23,12 +24,14 @@ export class ListComponent implements OnInit {
   @Input() filteredOptions: any;
   @Output() isChecked = new EventEmitter();
   public checkedAll = false;
+  public oldOption;
   constructor( private service: SelectService,
                private dr: ChangeDetectorRef) {
     this.checkedAll = this.service.checkedAll;
   }
 
   ngOnInit() {
+    this.oldOption = this.options;
   }
   public checkAll() {
     this.toggleChecked();
@@ -81,5 +84,22 @@ export class ListComponent implements OnInit {
     // console.log(this.options.length , this.service.getModel().length);
     this.checkedAll = this.options.length === this.service.getModel().length;
     this.service.checkedAll = this.checkedAll;
+  }
+
+  public getSearch(event) {
+     console.log(event);
+     if (event !== '' && event !== null) {
+       this.options = this.options.filter(option => {
+         console.log(option.value.toLowerCase(), event.toLowerCase())
+         if (option.value.toLowerCase().indexOf(event.toLowerCase()) !== -1) {
+           return option;
+         }
+       });
+       console.log(this.oldOption);
+     } else {
+       this.options = this.oldOption;
+       this.dr.detectChanges();
+       console.log('option', this.options);
+     }
   }
 }
